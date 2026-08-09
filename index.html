@@ -6,8 +6,6 @@
 
 <!-- ============================================================
   TODO before launch:
-  - Confirm https://sfinc.com and https://wealthtrendadvisors.com
-    are the correct destination URLs.
   - Replace the canonical/OG URL placeholder (https://example.com/)
     with your real GitHub Pages or custom domain URL.
   - Add a real Open Graph image (see og:image below).
@@ -20,7 +18,7 @@
 <!-- Open Graph -->
 <meta property="og:type" content="website">
 <meta property="og:title" content="Schneider Waltz Financial | Evansville, IN">
-<meta property="og:description" content="Local financial planning for Evansville, Indiana residents. <br>Choose where to start below.">
+<meta property="og:description" content="Local financial planning for Evansville, Indiana residents. Choose where to start below.">
 <meta property="og:image" content="https://example.com/assets/og-cover.jpg">
 <meta property="og:url" content="https://example.com/">
 <meta property="og:locale" content="en_US">
@@ -58,6 +56,8 @@
     --brass:#D9A34A;
     --brass-dark:#C08A2E;
     --glow:#3FD6C4;
+    --wine:#B5495F;
+    --wine-dark:#8C3448;
 
     --font-display:'Space Grotesk', -apple-system, Segoe UI, sans-serif;
     --font-body:'Inter', -apple-system, Segoe UI, sans-serif;
@@ -148,7 +148,7 @@
 
   .hero{
     width:100%;
-    max-width:640px;
+    max-width:880px;
     text-align:center;
     background:rgba(255,255,255,.04);
     border:1px solid rgba(255,255,255,.09);
@@ -170,7 +170,6 @@
   .brand{animation-delay:.05s;}
   .eyebrow{animation-delay:.15s;}
   .lede{animation-delay:.25s;}
-  .cta-row{animation-delay:.35s;}
   .fine-print{animation-delay:.45s;}
 
   .brand{
@@ -228,16 +227,84 @@
     color:rgba(246,244,238,.82);
     font-size:1.1rem;
     max-width:44ch;
-    margin:0 auto 2.4em;
+    margin:0 auto 2.6em;
   }
 
-  .cta-row{
-    display:flex;
-    flex-wrap:wrap;
-    justify-content:center;
-    gap:16px;
-    margin-bottom:1.6em;
+  /* ---------- FIRM COMPARISON CARDS ---------- */
+  .choices{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+    text-align:left;
   }
+  .choices.anim{animation-delay:.3s;}
+
+  .firm-card{
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+    padding:28px 26px;
+    border-radius:22px;
+    border:1px solid rgba(255,255,255,.1);
+    background:rgba(255,255,255,.03);
+    transition:transform .3s cubic-bezier(.2,.8,.3,1), border-color .3s ease, background .3s ease;
+  }
+  .firm-card:hover{
+    transform:translateY(-4px);
+    background:rgba(255,255,255,.06);
+  }
+  .firm-card--schneider{border-top:3px solid var(--brass);}
+  .firm-card--schneider:hover{border-color:rgba(217,163,74,.5);}
+  .firm-card--wealthtrends{border-top:3px solid var(--wine);}
+  .firm-card--wealthtrends:hover{border-color:rgba(181,73,95,.5);}
+
+  .firm-tag{
+    font-family:var(--font-mono);
+    font-size:.66rem;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    font-weight:600;
+    display:inline-flex;
+    align-self:flex-start;
+    padding:.4em .8em;
+    border-radius:var(--radius-pill);
+  }
+  .firm-card--schneider .firm-tag{color:var(--brass); background:rgba(217,163,74,.1); border:1px solid rgba(217,163,74,.3);}
+  .firm-card--wealthtrends .firm-tag{color:var(--wine); background:rgba(181,73,95,.12); border:1px solid rgba(181,73,95,.35);}
+
+  .firm-card h2{
+    font-family:var(--font-display);
+    font-size:1.3rem;
+    font-weight:600;
+    color:#fff;
+    margin:0;
+    letter-spacing:-.01em;
+  }
+
+  .firm-card p{
+    font-size:.92rem;
+    color:rgba(246,244,238,.75);
+    margin:0;
+    flex:1;
+  }
+
+  .firm-card .btn{
+    width:100%;
+    min-width:0;
+    margin-top:4px;
+  }
+  .btn-schneider{
+    background:linear-gradient(135deg, var(--brass) 0%, var(--brass-dark) 100%);
+    color:var(--navy-900);
+    box-shadow:0 8px 24px -8px rgba(217,163,74,.5);
+  }
+  .btn-schneider:hover{transform:translateY(-3px); box-shadow:0 16px 32px -10px rgba(217,163,74,.6);}
+  .btn-wealthtrends{
+    background:linear-gradient(135deg, var(--wine) 0%, var(--wine-dark) 100%);
+    color:#fff;
+    box-shadow:0 8px 24px -8px rgba(181,73,95,.5);
+  }
+  .btn-wealthtrends:hover{transform:translateY(-3px); box-shadow:0 16px 32px -10px rgba(181,73,95,.6);}
 
   .btn{
     position:relative;
@@ -245,43 +312,19 @@
     align-items:center;
     justify-content:center;
     gap:.5em;
-    padding:1.05em 2.1em;
+    padding:1.05em 1.6em;
     font-family:var(--font-body);
     font-weight:600;
-    font-size:1rem;
+    font-size:.98rem;
     text-decoration:none;
     border-radius:var(--radius-pill);
     border:1px solid transparent;
     cursor:pointer;
     transition:transform .25s cubic-bezier(.2,.8,.3,1), box-shadow .25s ease, background .25s ease, color .25s ease, border-color .25s ease;
-    min-width:240px;
-    width:300px;
     white-space:nowrap;
     overflow:hidden;
   }
   .btn:active{transform:translateY(1px) scale(.98);}
-
-  .btn-primary{
-    background:linear-gradient(135deg, var(--brass) 0%, var(--brass-dark) 100%);
-    color:var(--navy-900);
-    box-shadow:0 8px 24px -8px rgba(217,163,74,.55);
-  }
-  .btn-primary:hover{
-    transform:translateY(-3px);
-    box-shadow:0 16px 32px -10px rgba(217,163,74,.65);
-  }
-
-  .btn-outline{
-    background:rgba(255,255,255,.03);
-    color:var(--paper);
-    border-color:rgba(246,244,238,.3);
-  }
-  .btn-outline:hover{
-    transform:translateY(-3px);
-    background:rgba(246,244,238,.1);
-    border-color:rgba(246,244,238,.6);
-    box-shadow:0 16px 32px -14px rgba(0,0,0,.5);
-  }
 
   /* subtle shine sweep on hover, modern micro-interaction */
   .btn::after{
@@ -311,10 +354,13 @@
   }
   footer a{text-decoration:underline; text-decoration-color:var(--brass);}
 
+  @media (max-width: 720px){
+    .choices{grid-template-columns:1fr;}
+  }
+
   @media (max-width: 560px){
-    .hero{padding:44px 28px; border-radius:24px;}
-    .btn{min-width:0; width:100%; white-space:normal;}
-    .cta-row{flex-direction:column;}
+    .hero{padding:36px 22px; border-radius:24px;}
+    .firm-card{padding:24px 20px;}
   }
 </style>
 </head>
@@ -336,11 +382,22 @@
       <span class="brand-text">Schneider Waltz<small>Financial</small></span>
     </span>
 
-    <p class="lede anim">Local financial guidance for Evansville-area residents. Choose where you'd like to start.</p>
+    <p class="lede anim">Local financial guidance for Evansville-area residents.<br>Choose where you'd like to start.</p>
 
-    <div class="cta-row anim">
-      <a href="https://sfinc.com" class="btn btn-outline" target="_blank" rel="noopener">Visit Schneider Financial</a>
-      <a href="https://www.wealthtrendsadvisors.com/" class="btn btn-outline" target="_blank" rel="noopener">Visit Wealthtrends Advisors</a>
+    <div class="choices anim">
+      <article class="firm-card firm-card--schneider">
+        <span class="firm-tag">Family-Run · Wealth Management</span>
+        <h2>Schneider Financial</h2>
+        <p>Led by John and Brittany Schneider, this Evansville firm builds comprehensive wealth management and retirement plans around financial education — helping local families dream, plan, and enjoy what's next.</p>
+        <a href="https://www.schneiderfinancialadvisor.com/" class="btn btn-schneider" target="_blank" rel="noopener">Visit Schneider Financial</a>
+      </article>
+
+      <article class="firm-card firm-card--wealthtrends">
+        <span class="firm-tag">35+ Years · Retirement Specialists</span>
+        <h2>Wealthtrends Advisors</h2>
+        <p>Led by CFP® Dave Waltz, this independent, fee-based firm focuses on retirement planning, inter-generational wealth transfer, and executive benefits — with a disciplined, risk-aware approach built over three decades.</p>
+        <a href="https://www.wealthtrendsadvisors.com/" class="btn btn-wealthtrends" target="_blank" rel="noopener">Visit Wealthtrends Advisors</a>
+      </article>
     </div>
   </div>
 </main>
