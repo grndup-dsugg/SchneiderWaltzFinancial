@@ -243,7 +243,7 @@
     gap:.6em;
     text-align:left;
     width:fit-content;
-    max-width:29ch;
+    max-width:min(29ch, 100%);
     min-height:194px;
   }
   .firm-card li{
@@ -288,6 +288,7 @@
     border-radius:22px;
     border:1px solid rgba(0,0,0,.06);
     transition:transform .3s cubic-bezier(.2,.8,.3,1), box-shadow .3s ease;
+    min-width:0;
   }
   .firm-card--schneider{
     border-top:4px solid var(--gold);
@@ -428,7 +429,6 @@
     border:1px solid transparent;
     cursor:pointer;
     transition:transform .25s cubic-bezier(.2,.8,.3,1), box-shadow .25s ease, background .25s ease, color .25s ease, border-color .25s ease;
-    white-space:nowrap;
     overflow:hidden;
   }
   .btn:active{transform:translateY(1px) scale(.98);}
@@ -481,6 +481,7 @@
     .hero{padding:36px 22px; border-radius:32px;}
     .firm-card{padding:24px 20px;}
     .firm-card--schneider h2{white-space:normal; font-size:1.1rem;}
+    .firm-card .btn{font-size:.86rem; padding:1em 1em;}
   }
 </style>
 </head>
