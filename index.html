@@ -570,28 +570,19 @@
 <script>
   document.getElementById('year').textContent = new Date().getFullYear();
 
-  // Progressive-enhancement scroll reveal for the firm cards.
-  // If JS or IntersectionObserver is unavailable, cards simply stay
-  // visible as normal (no pre-reveal class is ever added).
-  if ('IntersectionObserver' in window) {
-    const cards = document.querySelectorAll('.firm-card');
-
-    cards.forEach((card, i) => {
-      card.classList.add('pre-reveal');
-      card.style.animationDelay = (i * 0.15) + 's';
-    });
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('in-view');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.2 });
-
-    cards.forEach(card => observer.observe(card));
-  }
+  // Entrance animation for the firm cards, fired immediately on load
+  // rather than on scroll -- a scroll-triggered reveal left a blank gap
+  // below the fold on mobile until the visitor scrolled, which read as
+  // a page that hadn't finished loading. Cards now animate in right
+  // away (staggered slightly) so they're always visible without delay.
+  const cards = document.querySelectorAll('.firm-card');
+  cards.forEach((card, i) => {
+    card.classList.add('pre-reveal');
+    card.style.animationDelay = (i * 0.12) + 's';
+  });
+  requestAnimationFrame(() => {
+    cards.forEach(card => card.classList.add('in-view'));
+  });
 
   // Precisely hide the middle-dot separator in the fiduciary line exactly when
   // the browser actually wraps it to a second line -- measured directly
