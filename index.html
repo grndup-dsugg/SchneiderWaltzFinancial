@@ -643,6 +643,18 @@
 <script>
   document.getElementById('year').textContent = new Date().getFullYear();
 
+  // iOS Safari renders its toolbar/status-bar chrome in an "expanded"
+  // state on fresh page load and only recalculates that chrome's color
+  // from <meta name="theme-color"> once it processes an actual scroll
+  // event and transitions into its "collapsed" toolbar state. Without
+  // this, the status bar stays uncolored until the visitor scrolls by
+  // hand. A 1px nudge (imperceptible, restored immediately) forces that
+  // recalculation on load instead of waiting for them to do it.
+  window.addEventListener('load', () => {
+    window.scrollTo(0, 1);
+    requestAnimationFrame(() => window.scrollTo(0, 0));
+  });
+
   // Entrance animation for the firm cards, fired immediately on load
   // rather than on scroll -- a scroll-triggered reveal left a blank gap
   // below the fold on mobile until the visitor scrolled, which read as
