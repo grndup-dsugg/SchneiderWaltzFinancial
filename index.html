@@ -180,6 +180,18 @@
   }
 
   /* ---------- SCROLL PROGRESS BAR ---------- */
+  /* Paints the safe area (behind the iOS notch/status bar) the same
+     solid page-background color a real fixed header would, since that
+     region just shows whatever the page itself renders there under
+     viewport-fit=cover -- it isn't reliably controlled by theme-color. */
+  .safe-area-cover{
+    position:fixed;
+    top:0; left:0; right:0;
+    height:env(safe-area-inset-top, 0px);
+    background:var(--cream);
+    z-index:1001;
+  }
+
   .scroll-progress{
     position:sticky;
     top:0; left:0;
@@ -560,6 +572,7 @@
 
 <a href="#main" class="skip-link">Skip to main content</a>
 
+<div class="safe-area-cover" aria-hidden="true"></div>
 <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
 
 <main id="main">
@@ -642,18 +655,6 @@
 
 <script>
   document.getElementById('year').textContent = new Date().getFullYear();
-
-  // iOS Safari renders its toolbar/status-bar chrome in an "expanded"
-  // state on fresh page load and only recalculates that chrome's color
-  // from <meta name="theme-color"> once it processes an actual scroll
-  // event and transitions into its "collapsed" toolbar state. Without
-  // this, the status bar stays uncolored until the visitor scrolls by
-  // hand. A 1px nudge (imperceptible, restored immediately) forces that
-  // recalculation on load instead of waiting for them to do it.
-  window.addEventListener('load', () => {
-    window.scrollTo(0, 1);
-    requestAnimationFrame(() => window.scrollTo(0, 0));
-  });
 
   // Entrance animation for the firm cards, fired immediately on load
   // rather than on scroll -- a scroll-triggered reveal left a blank gap
