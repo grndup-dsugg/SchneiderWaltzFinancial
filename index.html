@@ -203,6 +203,22 @@
     }
   }
 
+  /* In a normal iPhone Safari tab, safe-area-inset-top can resolve to 0
+     even while the translucent browser/status chrome overlaps the page.
+     Use an explicit mobile backdrop so text never scrolls behind it. */
+  @supports (-webkit-touch-callout: none){
+    @media (max-width: 768px){
+      .top-chrome{
+        height:67px;
+        padding-top:64px;
+      }
+
+      main{
+        padding-top:64px;
+      }
+    }
+  }
+
   /* ---------- MAGNETIC BUTTON GLOW ---------- */
   .btn{
     --mx:50%;
