@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
 <!-- ============================================================
   TODO before launch:
@@ -179,28 +179,28 @@
     background-size:140px 140px;
   }
 
-  /* ---------- SCROLL PROGRESS BAR ---------- */
-  /* Safari 26 ("Liquid Glass") ignores theme-color entirely. It instead
-     scans for position:fixed/sticky elements at the viewport edges and
-     tints its chrome from their actual background-color -- falling back
-     to <body> only if it finds none. Non-fixed content is excluded from
-     that scan, so this wrapper is the one fixed element that should
-     influence the top chrome's color. (It also used to hold a
-     safe-area-inset-top spacer for viewport-fit=cover, but that mode
-     forces Safari's mandatory translucent "scroll edge" blur over
-     anything painted there, which defeated the purpose -- removed, so
-     the notch/status bar is left as Safari's normal opaque chrome.) */
+  /* ---------- IOS SAFE AREA + SCROLL PROGRESS BAR ---------- */
+  /* Paint a solid cream layer beneath Safari's translucent status-bar
+     area so page content cannot show through while scrolling. */
   .top-chrome{
     position:fixed;
     top:0; left:0; right:0;
+    height:calc(env(safe-area-inset-top, 0px) + 3px);
+    padding-top:env(safe-area-inset-top, 0px);
     background:var(--cream);
-    z-index:1001;
+    z-index:99999;
   }
   .scroll-progress{
     height:3px;
     width:0%;
     background:linear-gradient(90deg, var(--gold-dark), var(--gold));
     transition:width .1s ease-out;
+  }
+
+  @supports (padding: env(safe-area-inset-top)){
+    main{
+      padding-top:env(safe-area-inset-top);
+    }
   }
 
   /* ---------- MAGNETIC BUTTON GLOW ---------- */
@@ -646,7 +646,7 @@
   <div class="footer-disclosure">
     <p>Check the background of these investment professionals on FINRA's <a href="https://brokercheck.finra.org/" target="_blank" rel="noopener">BrokerCheck</a>.</p>
 
-    <p>John Schneider and Brittany Schneider (Schneider Financial), and David Waltz and Steven Waltz (Wealthtrends Advisors), are registered with and offer securities through Kovack Securities, Inc., Member <a href="http://www.finra.org/" target="_blank" rel="noopener">FINRA</a> / <a href="http://www.sipc.org/" target="_blank" rel="noopener">SIPC</a>. Advisory services are offered through Kovack Advisors, Inc., an SEC-registered investment advisory firm. Schneider Financial and Wealthtrends Advisors are independent firms and are not affiliated with one another, with Kovack Securities, Inc., or with Kovack Advisors, Inc. A registered representative may only conduct business with residents of the states and/or jurisdictions in which they are properly registered.</p>
+    <p>John Schneider and Brittany Schneider (Schneider Financial), and David Waltz and Steven Waltz (Wealthtrends Advisors), are registered with and offer securities through Kovack Securities, Inc., Member <a href="http://www.finra.org/" target="_blank" rel="noopener">FINRA</a> / <a href="https://www.sipc.org/" target="_blank" rel="noopener">SIPC</a>. Advisory services are offered through Kovack Advisors, Inc., an SEC-registered investment advisory firm. Schneider Financial and Wealthtrends Advisors are independent firms and are not affiliated with one another, with Kovack Securities, Inc., or with Kovack Advisors, Inc. A registered representative may only conduct business with residents of the states and/or jurisdictions in which they are properly registered.</p>
 
     <p>Schneider &amp; Waltz Financial is an independent local directory page and is not itself a registered broker-dealer or investment adviser. Links to sites are provided solely as a courtesy; their inclusion here does not constitute an endorsement, recommendation, or guarantee of either firm, its services, or its personnel.</p>
 
