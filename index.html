@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <!-- ============================================================
   TODO before launch:
@@ -184,18 +184,17 @@
      scans for position:fixed/sticky elements at the viewport edges and
      tints its chrome from their actual background-color -- falling back
      to <body> only if it finds none. Non-fixed content is excluded from
-     that scan. So everything that needs to influence the top chrome's
-     color -- the safe-area spacer AND the progress bar -- has to live
-     inside ONE fixed element, not two competing ones, or the scan can
-     pick the wrong one. */
+     that scan, so this wrapper is the one fixed element that should
+     influence the top chrome's color. (It also used to hold a
+     safe-area-inset-top spacer for viewport-fit=cover, but that mode
+     forces Safari's mandatory translucent "scroll edge" blur over
+     anything painted there, which defeated the purpose -- removed, so
+     the notch/status bar is left as Safari's normal opaque chrome.) */
   .top-chrome{
     position:fixed;
     top:0; left:0; right:0;
     background:var(--cream);
     z-index:1001;
-  }
-  .safe-area-spacer{
-    height:env(safe-area-inset-top, 0px);
   }
   .scroll-progress{
     height:3px;
@@ -574,7 +573,6 @@
 <a href="#main" class="skip-link">Skip to main content</a>
 
 <div class="top-chrome" aria-hidden="true">
-  <div class="safe-area-spacer"></div>
   <div class="scroll-progress" id="scroll-progress"></div>
 </div>
 
