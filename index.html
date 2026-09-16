@@ -181,15 +181,14 @@
 
   /* ---------- SCROLL PROGRESS BAR ---------- */
   .scroll-progress{
-    position:fixed;
+    position:sticky;
     top:0; left:0;
     height:3px;
     width:0%;
+    margin-bottom:-3px;
     background:linear-gradient(90deg, var(--gold-dark), var(--gold));
     z-index:1000;
     transition:width .1s ease-out;
-    transform:translateZ(0);
-    will-change:transform;
   }
 
   /* ---------- MAGNETIC BUTTON GLOW ---------- */
@@ -241,6 +240,7 @@
     display:inline-flex;
     align-items:center;
     justify-content:center;
+    margin-top:20px;
     margin-bottom:2.2em;
   }
   .brand-logo{
@@ -707,6 +707,13 @@
   })();
 
   // Scroll progress bar across the top of the viewport.
+  // Uses position:sticky (see CSS) rather than fixed -- iOS Safari's
+  // address bar collapses/expands against the *layout* viewport while
+  // `position: fixed` elements are placed against it too, but the two
+  // diverge mid-animation, leaving fixed elements stranded until the
+  // scroll settles. `sticky` tracks actual scroll position instead and
+  // isn't subject to that divergence, so no JS position correction is
+  // needed here.
   (function(){
     const bar = document.getElementById('scroll-progress');
     if (!bar) return;
@@ -719,19 +726,6 @@
     updateProgress();
     window.addEventListener('scroll', updateProgress, { passive: true });
     window.addEventListener('resize', updateProgress);
-
-    // iOS Safari quirk: `position: fixed` tracks the layout viewport, not
-    // the visual one, so a fixed top bar drifts out of place whenever the
-    // address bar animates in/out during scroll. Re-anchor the bar to the
-    // true visual viewport top on every visualViewport event to compensate.
-    if (window.visualViewport) {
-      const pinToVisualViewport = () => {
-        bar.style.transform = `translateY(${window.visualViewport.offsetTop}px) translateZ(0)`;
-      };
-      pinToVisualViewport();
-      window.visualViewport.addEventListener('scroll', pinToVisualViewport);
-      window.visualViewport.addEventListener('resize', pinToVisualViewport);
-    }
   })();
 
   // Magnetic glow that follows the cursor on each CTA button.
