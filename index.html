@@ -180,26 +180,27 @@
   }
 
   /* ---------- SCROLL PROGRESS BAR ---------- */
-  /* Paints the safe area (behind the iOS notch/status bar) the same
-     solid page-background color a real fixed header would, since that
-     region just shows whatever the page itself renders there under
-     viewport-fit=cover -- it isn't reliably controlled by theme-color. */
-  .safe-area-cover{
+  /* Safari 26 ("Liquid Glass") ignores theme-color entirely. It instead
+     scans for position:fixed/sticky elements at the viewport edges and
+     tints its chrome from their actual background-color -- falling back
+     to <body> only if it finds none. Non-fixed content is excluded from
+     that scan. So everything that needs to influence the top chrome's
+     color -- the safe-area spacer AND the progress bar -- has to live
+     inside ONE fixed element, not two competing ones, or the scan can
+     pick the wrong one. */
+  .top-chrome{
     position:fixed;
     top:0; left:0; right:0;
-    height:env(safe-area-inset-top, 0px);
     background:var(--cream);
     z-index:1001;
   }
-
+  .safe-area-spacer{
+    height:env(safe-area-inset-top, 0px);
+  }
   .scroll-progress{
-    position:sticky;
-    top:0; left:0;
     height:3px;
     width:0%;
-    margin-bottom:-3px;
     background:linear-gradient(90deg, var(--gold-dark), var(--gold));
-    z-index:1000;
     transition:width .1s ease-out;
   }
 
@@ -572,8 +573,10 @@
 
 <a href="#main" class="skip-link">Skip to main content</a>
 
-<div class="safe-area-cover" aria-hidden="true"></div>
-<div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+<div class="top-chrome" aria-hidden="true">
+  <div class="safe-area-spacer"></div>
+  <div class="scroll-progress" id="scroll-progress"></div>
+</div>
 
 <main id="main">
   <div class="hero">
