@@ -188,6 +188,8 @@
     background:linear-gradient(90deg, var(--gold-dark), var(--gold));
     z-index:1000;
     transition:width .1s ease-out;
+    transform:translateZ(0);
+    will-change:transform;
   }
 
   /* ---------- MAGNETIC BUTTON GLOW ---------- */
@@ -717,6 +719,19 @@
     updateProgress();
     window.addEventListener('scroll', updateProgress, { passive: true });
     window.addEventListener('resize', updateProgress);
+
+    // iOS Safari quirk: `position: fixed` tracks the layout viewport, not
+    // the visual one, so a fixed top bar drifts out of place whenever the
+    // address bar animates in/out during scroll. Re-anchor the bar to the
+    // true visual viewport top on every visualViewport event to compensate.
+    if (window.visualViewport) {
+      const pinToVisualViewport = () => {
+        bar.style.transform = `translateY(${window.visualViewport.offsetTop}px) translateZ(0)`;
+      };
+      pinToVisualViewport();
+      window.visualViewport.addEventListener('scroll', pinToVisualViewport);
+      window.visualViewport.addEventListener('resize', pinToVisualViewport);
+    }
   })();
 
   // Magnetic glow that follows the cursor on each CTA button.
